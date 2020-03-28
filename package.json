@@ -2,7 +2,7 @@
 	"name": "rapid-json-search",
 	"displayName": "rapid-json-search",
 	"description": "Quickly search for json in current file",
-	"version": "0.0.3",
+	"version": "0.0.5",
 	"publisher": "datmt24",
 	"engines": {
 		"vscode": "^1.43.0"

@@ -4,79 +4,29 @@ import * as vscode from 'vscode';
 
 export function activate(context: vscode.ExtensionContext) {
 
-	function getPaths(data) {
-		var validId = /^[a-z_$][a-z0-9_$]*$/i;
-		var result = [];
-		doIt(data, "");
-		return result;
-	  
-		function doIt(data, s) {
-		  if (data && typeof data === "object") {
-			if (Array.isArray(data)) {
-			  for (var i = 0; i < data.length; i++) {
-				doIt(data[i], s + "[" + i + "]");
-			  }
-			} else {
-			  for (var p in data) {
-				if (validId.test(p)) {
-				  doIt(data[p], s + "." + p);
-				} else {
-				  doIt(data[p], s + "[\"" + p + "\"]");
-				}
-			  }
-			}
-		  } else {
-			result.push(s);
-		  }
-		}
-	  }
-
-	function findVal(jsonObject:JSON, searchTerms:string)
-	{
-		let allPaths = getPaths(jsonObject);
-		let searchTree = searchTerms.split(".");
-
-		let currentObj = jsonObject;
-		for (let i = 0; i < searchTree.length; i++)
-		{
-			if (typeof currentObj[searchTree[i]] === 'undefined')
-			{
-				currentObj = null;
-				break;
-			}
-			currentObj = currentObj[searchTree[i]];
-		}
-
-		let result = '';
-		if (currentObj)
-			result = JSON.stringify(currentObj);
-		
-		//find the possible path
-		let matchPaths = allPaths.filter(v => 
-			v.indexOf(searchTerms) > -1
-		)
-		
-		return [result, matchPaths];
-		
-	}
-
-
-
-
 
 	const writeEmitter = new vscode.EventEmitter<string>();
-	const activeEditor = vscode.window.activeTextEditor;
+	
 
 	let jsonText = 'some';
+	let terminalName = 'RJS';
 
+	let activeEditor = vscode.window.activeTextEditor;
 	if (activeEditor)
 	{
 		jsonText = (activeEditor.document.getText());
+		terminalName = activeEditor.document.fileName;
 	}
 
 
 	context.subscriptions.push(vscode.commands.registerCommand('rapidJSONSearch.create', () => {
 		let line = '';
+		activeEditor = vscode.window.activeTextEditor;
+		if (activeEditor)
+		{
+			jsonText = (activeEditor.document.getText());
+			terminalName = activeEditor.document.fileName;
+		}
 		let jsObject = JSON.parse('{}');
 		try {
 			jsObject = JSON.parse(jsonText);
@@ -97,14 +47,14 @@ export function activate(context: vscode.ExtensionContext) {
 					let result = findVal(jsObject, line);
 					
 					
-					writeEmitter.fire(`\r\n Result: ${result[0]}\r\n`);
-					writeEmitter.fire(`\r\n Match paths:\r\n`);
+					writeEmitter.fire(`\r\nResult: ${result[0]}\r\n`);
+					writeEmitter.fire(`\r\nMatch paths:\r\n   `);
 
 					if (Array.isArray(result[1]))
 					{
 						for (let p in result[1])
 						{
-							writeEmitter.fire(`${result[1][p]}\r\n `);
+							writeEmitter.fire(`${result[1][p].substr(1)}\r\n   `);
 						}
 					}
 					
@@ -131,11 +81,67 @@ export function activate(context: vscode.ExtensionContext) {
 				
 			}
 		};
-		const terminal = (<any>vscode.window).createTerminal({ name: `RJS`, pty });
+		const terminal = (<any>vscode.window).createTerminal({ name: terminalName, pty });
 		terminal.show();
 	}));
 
 	context.subscriptions.push(vscode.commands.registerCommand('rapidJSONSearch.clear', () => {
 		writeEmitter.fire('\x1b[2J\x1b[3J\x1b[;H');
 	}));
+}
+
+function getPaths(data) {
+	var validId = /^[a-z_$][a-z0-9_$]*$/i;
+	var result = [];
+	doIt(data, "");
+	return result;
+  
+	function doIt(data, s) {
+	  if (data && typeof data === "object") {
+		if (Array.isArray(data)) {
+		  for (var i = 0; i < data.length; i++) {
+			doIt(data[i], s + "[" + i + "]");
+		  }
+		} else {
+		  for (var p in data) {
+			if (validId.test(p)) {
+				doIt(data[p], s + "." + p);
+			} else {
+			  doIt(data[p], s + "[\"" + p + "\"]");
+			}
+		  }
+		}
+	  } else {
+		result.push(s);
+	  }
+	}
+  }
+
+function findVal(jsonObject:JSON, searchTerms:string)
+{
+	let allPaths = getPaths(jsonObject);
+	let searchTree = searchTerms.split(".");
+
+	let currentObj = jsonObject;
+	for (let i = 0; i < searchTree.length; i++)
+	{
+		if (typeof currentObj[searchTree[i]] === 'undefined')
+		{
+			currentObj = null;
+			break;
+		}
+		currentObj = currentObj[searchTree[i]];
+	}
+
+	let result = '';
+	if (currentObj)
+		result = JSON.stringify(currentObj);
+	
+	//find the possible path
+	let matchPaths = allPaths.filter(v => 
+		v.indexOf(searchTerms) > -1
+	)
+	
+	return [result, matchPaths];
+	
 }
