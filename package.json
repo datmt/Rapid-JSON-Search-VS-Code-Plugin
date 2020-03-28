@@ -1,0 +1,43 @@
+{
+	"name": "rapid-json-search",
+	"displayName": "rapid-json-search",
+	"description": "Quickly search for json in current file",
+	"version": "0.0.3",
+	"publisher": "datmt24",
+	"engines": {
+		"vscode": "^1.43.0"
+	},
+	"enableProposedApi": false,
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onCommand:rapidJSONSearch.create",
+		"onCommand:rapidJSONSearch.clear"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "rapidJSONSearch.create",
+				"title": "Rapid JSON Search: Create"
+			},
+			{
+				"command": "rapidJSONSearch.clear",
+				"title": "Rapid JSON Search: Clear"
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"lint": "tslint -p ./"
+	},
+	"devDependencies": {
+		"@types/node": "^6.14.9",
+		"@types/vscode": "^1.43.0",
+		"tslint": "^5.20.1",
+		"typescript": "^3.8.3"
+	}
+}
