@@ -1,9 +1,13 @@
 {
 	"name": "rapid-json-search",
 	"displayName": "Rapid JSON Search",
-	"description": "Quickly search for json in current file",
-	"version": "0.0.5",
+	"description": "Quickly search for JSON in current file",
+	"version": "0.0.6",
 	"publisher": "datmt24",
+	"repository": {
+		"type": "git",
+		"url" : "https://github.com/datmt/Rapid-JSON-Search-VS-Code-Plugin.git"
+	},
 	"engines": {
 		"vscode": "^1.43.0"
 	},

@@ -1,4 +1,4 @@
-# rapid-json-search
+# Rapid JSON Search
 
 This extension lets you search quickly for the value of json object in *currently* open file.
 
