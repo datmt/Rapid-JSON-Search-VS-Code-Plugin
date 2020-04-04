@@ -6,3 +6,5 @@ This extension lets you search quickly for the value of json object in *currentl
 1. Cmd +p, type > Rapid JSON Search: Create to open the terminal
 2. Type in the path for example person.name
 3. Hit enter to see the result
+
+![rapid-json-search](https://user-images.githubusercontent.com/14150061/78463059-e68f1c80-7702-11ea-8bd6-2c03fb856969.gif)
