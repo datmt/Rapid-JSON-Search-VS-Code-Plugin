@@ -1,6 +1,6 @@
 {
 	"name": "rapid-json-search",
-	"displayName": "rapid-json-search",
+	"displayName": "Rapid JSON Search",
 	"description": "Quickly search for json in current file",
 	"version": "0.0.5",
 	"publisher": "datmt24",
