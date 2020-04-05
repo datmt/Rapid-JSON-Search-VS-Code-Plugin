@@ -1,13 +1,13 @@
 {
 	"name": "rapid-json-search",
 	"displayName": "Rapid JSON Search",
-	"description": "Quickly search for JSON in current file",
-	"version": "0.0.8",
+	"description": "Have you ever find it is hard to find a particular JSON value? This simple JSON search extension helps you quickly search for JSON in current file",
+	"version": "0.0.9",
 	"publisher": "datmt24",
 	"license": "MIT",
 	"homepage": "https://binarycarpenter.com",
 	"galleryBanner": {
-		"color": "#C80000",
+		"color": "#282828",
 		"theme": "dark"
 	},
 	"icon" : "images/icon.png",
