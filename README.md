@@ -1,6 +1,6 @@
-# Rapid JSON Search
+# JSON Search for values quickly
 
-This extension lets you search quickly for the value of JSON object in *currently* open file.
+JSON search plugin lets you search quickly for the value of JSON object in *currently* open file.
 
 ## Why another JSON plugin?
 This JSON search plugin comes from my actual needs. I usually have to search for translation string in JSON files. I don't know how to locate
