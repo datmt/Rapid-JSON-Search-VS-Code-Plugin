@@ -1,8 +1,8 @@
 {
 	"name": "rapid-json-search",
-	"displayName": "Rapid JSON Search",
+	"displayName": "JSON Search",
 	"description": "Have you ever find it is hard to find a particular JSON value? This simple JSON search extension helps you quickly search for JSON in current file",
-	"version": "0.0.9",
+	"version": "0.1.1",
 	"publisher": "datmt24",
 	"license": "MIT",
 	"homepage": "https://binarycarpenter.com",
