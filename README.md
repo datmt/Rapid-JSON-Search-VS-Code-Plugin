@@ -15,4 +15,15 @@ What this JSON search plugin does is very simple. You enter a full path or a par
 2. Type in the path for example person.name
 3. Hit enter to see the result
 
+## Commands
+1. ```:clear``` to clear the terminal
+2. ```:kaput``` to destroy the terminal
+3. ```:reload``` reload the currently open file
+
+## License
+MIT
+
+## Contact
+Ping me at dat.tm24@gmail.com or visit my website at [BinaryCarpenter](https://www.binarycarpenter.com/?src=vscode-mktpl)
+
 ![rapid-json-search](https://user-images.githubusercontent.com/14150061/78463059-e68f1c80-7702-11ea-8bd6-2c03fb856969.gif)
