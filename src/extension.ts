@@ -9,23 +9,25 @@ export function activate(context: vscode.ExtensionContext) {
 	
 
 	let jsonText = 'some';
-	let terminalName = 'RJS';
+	let terminalName = 'JSON Search';
+	let terminal;
 
 	let activeEditor = vscode.window.activeTextEditor;
 	if (activeEditor)
 	{
 		jsonText = (activeEditor.document.getText());
-		terminalName = activeEditor.document.fileName;
+		// terminalName = activeEditor.document.fileName;
 	}
 
 
 	context.subscriptions.push(vscode.commands.registerCommand('rapidJSONSearch.create', () => {
 		let line = '';
+		writeEmitter.fire('\x1b[2J\x1b[3J\x1b[;H');
 		activeEditor = vscode.window.activeTextEditor;
 		if (activeEditor)
 		{
 			jsonText = (activeEditor.document.getText());
-			terminalName = activeEditor.document.fileName;
+			// terminalName = activeEditor.document.fileName;
 		}
 		let jsObject = JSON.parse('{}');
 		try {
@@ -81,7 +83,9 @@ export function activate(context: vscode.ExtensionContext) {
 				
 			}
 		};
-		const terminal = (<any>vscode.window).createTerminal({ name: terminalName, pty });
+		
+		if (typeof terminal === "undefined")
+			terminal = (<any>vscode.window).createTerminal({ name: terminalName, pty });
 		terminal.show();
 	}));
 
