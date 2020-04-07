@@ -12,23 +12,23 @@ export function activate(context: vscode.ExtensionContext) {
 	let terminalName = 'JSON Search';
 	let terminal;
 
-	let activeEditor = vscode.window.activeTextEditor;
-	if (activeEditor)
-	{
-		jsonText = (activeEditor.document.getText());
-		// terminalName = activeEditor.document.fileName;
-	}
-
-
+	// let activeEditor = vscode.window.activeTextEditor;
+	
 	context.subscriptions.push(vscode.commands.registerCommand('rapidJSONSearch.create', () => {
-		let line = '';
-		writeEmitter.fire('\x1b[2J\x1b[3J\x1b[;H');
-		activeEditor = vscode.window.activeTextEditor;
+		let activeEditor = vscode.window.activeTextEditor;
 		if (activeEditor)
 		{
 			jsonText = (activeEditor.document.getText());
+			console.log(jsonText);
 			// terminalName = activeEditor.document.fileName;
+		} else
+		{
+			return;
 		}
+
+		let line = '';
+		writeEmitter.fire('\x1b[2J\x1b[3J\x1b[;H');
+		
 		let jsObject = JSON.parse('{}');
 		try {
 			jsObject = JSON.parse(jsonText);
@@ -39,13 +39,35 @@ export function activate(context: vscode.ExtensionContext) {
 		
 	
 
-		const pty = {
+		let pty = {
 			onDidWrite: writeEmitter.event,
 			open: () => writeEmitter.fire('Type and press enter to search:\r\n\r\n'),
 			close: () => {},
 			handleInput: (data: string) => {
 				if (data === '\r') { // Enter
 					
+					//clear the teminal on :clear
+					if (line.trim() === ':clear')
+					{
+						if (typeof terminal !== 'undefined')
+						{
+							writeEmitter.fire('\x1b[2J\x1b[3J\x1b[;H');
+							return;
+						}
+					}
+
+					if (line.trim() === ':kaput')
+					{
+						if (typeof terminal !== 'undefined')
+						{
+							terminal.dispose();
+							terminal = null;
+							return;
+						}
+					}
+
+
+					console.log('the objec is: ', jsObject);
 					let result = findVal(jsObject, line);
 					
 					
@@ -83,8 +105,10 @@ export function activate(context: vscode.ExtensionContext) {
 				
 			}
 		};
+
 		
-		if (typeof terminal === "undefined")
+		
+		if (typeof terminal === "undefined" || terminal == null)
 			terminal = (<any>vscode.window).createTerminal({ name: terminalName, pty });
 		terminal.show();
 	}));
