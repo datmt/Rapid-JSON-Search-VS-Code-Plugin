@@ -19,7 +19,6 @@ export function activate(context: vscode.ExtensionContext) {
 		if (activeEditor)
 		{
 			jsonText = (activeEditor.document.getText());
-			console.log(jsonText);
 			// terminalName = activeEditor.document.fileName;
 		} else
 		{
@@ -66,8 +65,22 @@ export function activate(context: vscode.ExtensionContext) {
 						}
 					}
 
+					if (line.trim() === ':reload')
+					{
+						try
+						{
+							jsonText = (activeEditor.document.getText());
+							jsObject = JSON.parse(jsonText);
+							writeEmitter.fire('\x1b[2J\x1b[3J\x1b[;H');
+							return;
+						} catch(e)
+						{
+							console.log(e);
+							return;
+						}
+						
+					}
 
-					console.log('the objec is: ', jsObject);
 					let result = findVal(jsObject, line);
 					
 					
