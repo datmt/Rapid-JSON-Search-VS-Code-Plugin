@@ -48,8 +48,11 @@ export function activate(context: vscode.ExtensionContext) {
 					//clear the teminal on :clear
 					if (line.trim() === ':clear')
 					{
+						line = '';
+						
 						if (typeof terminal !== 'undefined')
 						{
+							
 							writeEmitter.fire('\x1b[2J\x1b[3J\x1b[;H');
 							return;
 						}
@@ -57,6 +60,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 					if (line.trim() === ':kaput')
 					{
+						line = '';
 						if (typeof terminal !== 'undefined')
 						{
 							terminal.dispose();
@@ -69,6 +73,7 @@ export function activate(context: vscode.ExtensionContext) {
 					{
 						try
 						{
+							line = '';
 							jsonText = (activeEditor.document.getText());
 							jsObject = JSON.parse(jsonText);
 							writeEmitter.fire('\x1b[2J\x1b[3J\x1b[;H');
@@ -83,6 +88,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 					let result = findVal(jsObject, line);
 					
+
 					
 					writeEmitter.fire(`\r\nResult: ${result[0]}\r\n`);
 					writeEmitter.fire(`\r\nMatch paths:\r\n   `);
@@ -113,8 +119,11 @@ export function activate(context: vscode.ExtensionContext) {
 					// writeEmitter.fire(v1.window.activeTextEditor?.document.fileName);
 					return;
 				}
+				
 				line += data;
+				console.log('line now is: ', line);
 				writeEmitter.fire(data);
+
 				
 			}
 		};
