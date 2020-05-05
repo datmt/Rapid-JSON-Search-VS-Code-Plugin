@@ -89,7 +89,7 @@ export function activate(context: vscode.ExtensionContext) {
 					let result = findVal(jsObject, line);
 					
 
-					
+					console.log('results are: ', result);
 					writeEmitter.fire(`\r\nResult: ${result[0]}\r\n`);
 					writeEmitter.fire(`\r\nMatch paths:\r\n   `);
 
@@ -183,8 +183,9 @@ function findVal(jsonObject:JSON, searchTerms:string)
 		currentObj = currentObj[searchTree[i]];
 	}
 
+	console.log(currentObj , ' is current');
 	let result = '';
-	if (currentObj)
+	if (currentObj !== null)
 		result = JSON.stringify(currentObj);
 	
 	//find the possible path
