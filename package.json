@@ -2,7 +2,7 @@
 	"name": "rapid-json-search",
 	"displayName": "JSON Search",
 	"description": "JSON search plugin helps you quickly search for JSON values in current file",
-	"version": "0.1.4",
+	"version": "0.1.6",
 	"publisher": "datmt24",
 	"license": "MIT",
 	"homepage": "https://binarycarpenter.com",

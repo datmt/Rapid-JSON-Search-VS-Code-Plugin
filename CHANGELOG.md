@@ -1,5 +1,18 @@
 # JSON Search for Visual Studio Code
 
+## Version 0.1.6 May 6th, 2020
+
+### New Features
+
+- Fix reload and display false
+
+## Version 0.1.5 April 7th, 2020
+
+### New Features
+
+- Add reload method in the terminal so you can reload the current file without running the Command/Ctrl + p again
+
+
 ## Version 0.1.4 April 7th, 2020
 
 ### New Features
