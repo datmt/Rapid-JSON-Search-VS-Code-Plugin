@@ -74,16 +74,30 @@ export function activate(context: vscode.ExtensionContext) {
 
             console.log("results are: ", result);
             writeEmitter.fire(`\r\nResult: ${result[0]}\r\n`);
-            writeEmitter.fire(`\r\nMatch paths:\r\n   `);
+            writeEmitter.fire(`\r\nMatch paths:\r\n   \r\n`);
+
+            let jsStyle = [];
+            let pyStyle = [];
 
             if (Array.isArray(result[1])) {
               for (let p in result[1]) {
-                let jsPath = result[1][p].substr(1);
+                let jsPath =
+                  result[1][p].indexOf("[") === 0
+                    ? result[1][p]
+                    : result[1][p].substr(1);
                 let pyPath = convertToPythonPath(jsPath);
-                let res = jsPath + " (JS) or " + pyPath + " (Python)";
-                writeEmitter.fire(`${res}\r\n   `);
+                jsStyle.push(jsPath);
+                pyStyle.push(pyPath);
               }
             }
+
+            printTwoArraysToTable(
+              jsStyle,
+              pyStyle,
+              writeEmitter,
+              "JS",
+              "Python"
+            );
 
             writeEmitter.fire("\r\n------------------------\r\n");
             writeEmitter.fire("Type and press enter to search:\r\n\r\n");
@@ -106,7 +120,6 @@ export function activate(context: vscode.ExtensionContext) {
           }
 
           line += data;
-          console.log("line now is: ", line);
           writeEmitter.fire(data);
         },
       };
@@ -172,7 +185,6 @@ function findVal(jsonObject: JSON, searchTerms: string) {
     currentObj = currentObj[searchTree[i]];
   }
 
-  console.log(currentObj, " is current");
   let result = "";
   if (currentObj !== null) result = JSON.stringify(currentObj);
 
@@ -180,4 +192,48 @@ function findVal(jsonObject: JSON, searchTerms: string) {
   let matchPaths = allPaths.filter((v) => v.indexOf(searchTerms) > -1);
 
   return [result, matchPaths];
+}
+
+function printTwoArraysToTable(
+  firstArray: any[],
+  secondArray: any[],
+  writeEmitter: any,
+  firstColTitle: string,
+  sencondColTitle: string
+) {
+  let rowLength = 0;
+  let firstColLength = 0;
+  let secondColLength = 0;
+  for (let i = 0; i < firstArray.length; i++) {
+    if (firstArray[i].length > firstColLength) {
+      firstColLength = firstArray[i].length;
+    }
+
+    if (secondArray[i].length > secondColLength) {
+      secondColLength = secondArray[i].length;
+    }
+
+    rowLength = firstColLength + secondColLength + 3;
+  }
+
+  writeEmitter.fire(
+    "| " +
+      firstColTitle.padEnd(firstColLength, " ") +
+      " | " +
+      sencondColTitle.padEnd(secondColLength, " ") +
+      " |" +
+      `\r\n`
+  );
+  writeEmitter.fire("".padEnd(rowLength + 4, "_") + `\r\n`);
+
+  for (let i = 0; i < firstArray.length; i++) {
+    writeEmitter.fire(
+      "| " +
+        firstArray[i].padEnd(firstColLength, " ") +
+        " | " +
+        secondArray[i].padEnd(secondColLength, " ") +
+        " |" +
+        `\r\n`
+    );
+  }
 }
