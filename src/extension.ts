@@ -141,7 +141,7 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 function convertToPythonPath(jsPath) {
-  let pyPath = jsPath.replace(/[a-z]+/g, '["$&"]').replace(/\./g, "");
+  let pyPath = jsPath.replace(/[a-z_]+(?=(?:(?:[^\"]*\"){2})*[^\"]*$)/gi, '["$&"]').replace(/(?<=])\.(?=\[)/g, "");
   return pyPath;
 }
 
